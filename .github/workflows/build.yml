@@ -1,0 +1,37 @@
+name: build
+
+on:
+  push:
+
+permissions:
+  contents: read
+  checks: write
+
+jobs:
+  build:
+    runs-on: macos-12
+  
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+
+      - name: build application
+        run: >
+          xcodebuild
+          -workspace acme.xcodeproj
+          -scheme acme
+          -configuration Release
+          -derivedDataPath ~/Library/Developer/Xcode/DerivedData/acme
+          -disableAutomaticPackageResolution
+          clean archive
+          -archivePath dist/acme.xcarchive
+
+      - name: compress archive
+        run: tar -zcvf acme.xcarchive.tar.gz acme.xcarchive
+        working-directory: ./dist
+
+      - name: archive artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: acme_r${{ github.run_id }}.xcarchive
+          path: dist/acme.xcarchive.tar.gz
