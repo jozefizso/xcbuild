@@ -26,21 +26,24 @@ jobs:
 
       - name: build application
         run: >
-          set -o pipefail &&
           xcodebuild
           -project acme.xcodeproj
           -scheme acme
           -configuration Release
           -derivedDataPath ~/Library/Developer/Xcode/DerivedData/acme
           -disableAutomaticPackageResolution
+          -showBuildTimingSummary
           clean archive
           -archivePath dist/$ARCHIVE_NAME
-          | xcbeautify --renderer github-actions
+          | tee > build.log
+
+      - name: build report
+        run: cat build.log | xcbeautify --renderer github-actions
 
       - name: report
         run: |
           mkdir dist/$ARCHIVE_NAME/Logs
-          ls -la -R ~/Library/Developer/Xcode/ > dist/$ARCHIVE_NAME/Logs/Report.txt
+          ls -la -R ~/Library/Developer/Xcode > dist/$ARCHIVE_NAME/Logs/Report.txt
 
       - name: compress archive
         run: tar -zcvf $ARCHIVE_NAME.tar.gz $ARCHIVE_NAME
