@@ -38,7 +38,9 @@ jobs:
           | xcbeautify --renderer github-actions
 
       - name: report
-        run: ls -la -R ~/Library/Developer/Xcode/ > dist/$ARCHIVE_NAME/Logs/Report.txt
+        run: |
+          mkdir dist/$ARCHIVE_NAME/Logs
+          ls -la -R ~/Library/Developer/Xcode/ > dist/$ARCHIVE_NAME/Logs/Report.txt
 
       - name: compress archive
         run: tar -zcvf $ARCHIVE_NAME.tar.gz $ARCHIVE_NAME
