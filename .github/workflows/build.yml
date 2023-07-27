@@ -18,7 +18,7 @@ jobs:
       - name: build application
         run: >
           xcodebuild
-          -workspace acme.xcodeproj
+          -project acme.xcodeproj
           -scheme acme
           -configuration Release
           -derivedDataPath ~/Library/Developer/Xcode/DerivedData/acme
