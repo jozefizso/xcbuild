@@ -18,6 +18,9 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
 
+      - name: brew update
+        run: brew update
+
       - name: setup xcbeautify
         run: brew install xcbeautify
 
