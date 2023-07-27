@@ -44,6 +44,8 @@ jobs:
         run: |
           mkdir dist/$ARCHIVE_NAME/Logs
           ls -la -R ~/Library/Developer/Xcode > dist/$ARCHIVE_NAME/Logs/Report.txt
+          cp build.log dist/$ARCHIVE_NAME/Logs/build.log
+          cp -R ~/Library/Developer/Xcode/DerivedData/acme/Logs dist/$ARCHIVE_NAME/Logs
 
       - name: compress archive
         run: tar -zcvf $ARCHIVE_NAME.tar.gz $ARCHIVE_NAME
