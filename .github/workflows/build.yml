@@ -7,6 +7,9 @@ permissions:
   contents: read
   checks: write
 
+env:
+  ARCHIVE_NAME: 'acme_r${{ github.run_number }}.xcarchive'
+
 jobs:
   build:
     runs-on: macos-12
@@ -24,14 +27,14 @@ jobs:
           -derivedDataPath ~/Library/Developer/Xcode/DerivedData/acme
           -disableAutomaticPackageResolution
           clean archive
-          -archivePath dist/acme.xcarchive
+          -archivePath dist/$ARCHIVE_NAME
 
       - name: compress archive
-        run: tar -zcvf acme.xcarchive.tar.gz acme.xcarchive
+        run: tar -zcvf $ARCHIVE_NAME.tar.gz $ARCHIVE_NAME
         working-directory: ./dist
 
       - name: archive artifact
         uses: actions/upload-artifact@v3
         with:
-          name: acme_r${{ github.run_id }}.xcarchive
-          path: dist/acme.xcarchive.tar.gz
+          name: ${{ env.ARCHIVE_NAME }}
+          path: dist/${{ env.ARCHIVE_NAME }}.tar.gz
