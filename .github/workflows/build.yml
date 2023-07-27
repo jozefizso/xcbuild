@@ -18,8 +18,12 @@ jobs:
       - name: checkout
         uses: actions/checkout@v3
 
+      - name: setup xcbeautify
+        run: brew install xcbeautify
+
       - name: build application
         run: >
+          set -o pipefail &&
           xcodebuild
           -project acme.xcodeproj
           -scheme acme
@@ -28,6 +32,7 @@ jobs:
           -disableAutomaticPackageResolution
           clean archive
           -archivePath dist/$ARCHIVE_NAME
+          | xcbeautify --renderer github-actions
 
       - name: compress archive
         run: tar -zcvf $ARCHIVE_NAME.tar.gz $ARCHIVE_NAME
