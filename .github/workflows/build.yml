@@ -9,12 +9,19 @@ permissions:
 
 env:
   ARCHIVE_NAME: 'acme_r${{ github.run_number }}.xcarchive'
+  PATH_HOME: '${HOME}'
+  PATH_TILDE: '~/'
 
 jobs:
   build:
     runs-on: macos-12
   
     steps:
+      - name: debug
+        run: |
+          echo $PATH_HOME
+          echo $PATH_TILDE
+      
       - name: checkout
         uses: actions/checkout@v3
 
