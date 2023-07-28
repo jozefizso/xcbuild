@@ -17,11 +17,21 @@ jobs:
     runs-on: macos-12
   
     steps:
-      - name: debug
+      - name: debug1
         run: |
           echo $PATH_HOME
           echo $PATH_TILDE
-      
+
+      - name: debug2
+        run: |
+          echo ${{ env.PATH_HOME }}
+          echo ${{ env.PATH_TILDE }}
+
+      - name: debug3
+        run: |
+          ls $PATH_HOME
+          ls $PATH_TILDE
+
       - name: checkout
         uses: actions/checkout@v3
 
