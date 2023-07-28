@@ -32,6 +32,9 @@ jobs:
           ls ${{ env.PATH_HOME }}
           ls ${{ env.PATH_TILDE }}
 
+      - name: summary
+        run: cat ~/systeminfo.md >> $GITHUB_STEP_SUMMARY
+
       - name: checkout
         uses: actions/checkout@v3
 
